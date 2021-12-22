@@ -4,6 +4,7 @@ import be.vdab.muziekrestservice.domain.Album;
 import be.vdab.muziekrestservice.domain.Track;
 import be.vdab.muziekrestservice.exceptions.AlbumNietGevondenException;
 import be.vdab.muziekrestservice.services.AlbumService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.EntityLinks;
@@ -25,6 +26,7 @@ class AlbumController {
     }
 
     @GetMapping("{id}")
+    @Operation(summary = "Een album zoeken op id")
     EntityModel<AlbumArtiest> getAlbum(@PathVariable long id) {
         return albumService.findById(id)
                 .map(album -> EntityModel.of(new AlbumArtiest(album)).add(links.linkToItemResource(album)).add(links.linkForItemResource(album).slash("tracks").withRel("tracks")))
@@ -32,6 +34,7 @@ class AlbumController {
     }
 
     @GetMapping("{id}/tracks")
+    @Operation(summary = "Tracks zoeken op id van een album")
     CollectionModel<Track> getTracks(@PathVariable long id) {
         return albumService.findById(id)
                 .map(album -> CollectionModel.of(album.getTracks()).add(links.linkForItemResource(album).slash("tracks").withRel("self")).add(links.linkToItemResource(album).withRel("album")))
