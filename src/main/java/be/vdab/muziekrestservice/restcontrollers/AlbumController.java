@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/albums")
 @ExposesResourceFor(Album.class)
+@CrossOrigin
 class AlbumController {
     private final AlbumService albumService;
     private final TypedEntityLinks.ExtendedTypedEntityLinks<Album> links;
